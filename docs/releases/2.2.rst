@@ -40,6 +40,11 @@ using libtesseract. If libtesseract is not available the backend fallsback to
 calling the Tesseract executable.
 - Language list moved from document model to document form.
 
+- Python 3
+
+  - Remove PDFMiner
+  - Remove PDFMinerParser
+
 Removals
 --------
 - Removal of the OCR_TESSERACT_PATH configuration setting.

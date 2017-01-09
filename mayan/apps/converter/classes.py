@@ -4,16 +4,12 @@ import base64
 import logging
 import os
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
 from PIL import Image
 import sh
 
 from django.utils.translation import string_concat, ugettext_lazy as _
 
+from common.compat import StringIO
 from common.settings import setting_temporary_directory
 from common.utils import fs_cleanup, mkstemp
 from mimetype.api import get_mimetype

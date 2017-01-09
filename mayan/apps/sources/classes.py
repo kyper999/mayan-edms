@@ -5,13 +5,9 @@ import os
 import time
 import urllib
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
 from django.core.files import File
 
+from common.compat import StringIO
 from converter import TransformationResize, converter_class
 
 

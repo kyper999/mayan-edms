@@ -1,7 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
 import logging
-import urlparse
 
 from django.conf import settings
 from django.contrib import messages
@@ -13,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import RedirectView
 
 from acls.models import AccessControlList
+from common.compat import urlparse
 from common.generics import SimpleView, SingleObjectListView
 from converter.literals import DEFAULT_ROTATION, DEFAULT_ZOOM_LEVEL
 

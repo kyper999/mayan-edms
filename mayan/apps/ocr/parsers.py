@@ -3,10 +3,6 @@ from __future__ import unicode_literals
 from io import BytesIO
 import logging
 import os
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-from pdfminer.pdfpage import PDFPage
-from pdfminer.converter import TextConverter
-from pdfminer.layout import LAParams
 import subprocess
 
 from django.utils.translation import ugettext_lazy as _
@@ -171,31 +167,7 @@ class PopplerParser(Parser):
         return output
 
 
-class PDFMinerParser(Parser):
-    """
-    Parser for PDF files using the PDFMiner library for Python
-    """
-
-    def execute(self, file_object, page_number):
-        logger.debug('Parsing PDF page: %d', page_number)
-
-        with BytesIO() as string_buffer:
-            rsrcmgr = PDFResourceManager()
-            device = TextConverter(
-                rsrcmgr, outfp=string_buffer, laparams=LAParams()
-            )
-            interpreter = PDFPageInterpreter(rsrcmgr, device)
-            page = PDFPage.get_pages(
-                file_object, maxpages=1, pagenos=(page_number - 1,)
-            )
-            interpreter.process_page(page.next())
-            device.close()
-
-            logger.debug('Finished parsing PDF: %d', page_number)
-
-            return string_buffer.getvalue()
-
 Parser.register(
     mimetypes=('application/pdf',),
-    parser_classes=(PopplerParser, PDFMinerParser)
+    parser_classes=(PopplerParser,)
 )

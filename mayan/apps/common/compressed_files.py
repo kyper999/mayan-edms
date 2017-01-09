@@ -8,12 +8,9 @@ try:
 except:
     COMPRESSION = zipfile.ZIP_STORED
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
 from django.core.files.uploadedfile import SimpleUploadedFile
+
+from .compat import StringIO
 
 
 class NotACompressedFile(Exception):

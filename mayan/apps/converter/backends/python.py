@@ -3,18 +3,14 @@ from __future__ import unicode_literals
 import io
 import logging
 import os
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+import re
 
 from PIL import Image
-from pdfminer.pdfpage import PDFPage
 import sh
 
 from django.utils.translation import ugettext_lazy as _
 
+from common.compat import StringIO
 from common.utils import fs_cleanup, mkstemp
 
 from ..classes import ConverterBase
@@ -28,6 +24,9 @@ except sh.CommandNotFound:
 else:
     pdftoppm = pdftoppm.bake('-jpeg')
 
+REGEX_PDF_PAGE_COUNT = re.compile(
+    r'/Type\s*/Page([^s]|$)', re.MULTILINE|re.DOTALL
+)
 Image.init()
 logger = logging.getLogger(__name__)
 
@@ -43,6 +42,9 @@ class IteratorIO(object):
 
 
 class Python(ConverterBase):
+    @staticmethod
+    def pdf_page_count(file_object):
+        return len(REGEX_PDF_PAGE_COUNT.findall(file_object.read()))
 
     def convert(self, *args, **kwargs):
         super(Python, self).convert(*args, **kwargs)
@@ -80,7 +82,7 @@ class Python(ConverterBase):
                 file_object = self.file_object
 
             try:
-                page_count = len(list(PDFPage.get_pages(file_object)))
+                page_count = Python.pdf_page_count(file_object)
             except Exception as exception:
                 error_message = _(
                     'Exception determining PDF page count; %s'

@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import inspect
 import logging
 import urllib
-import urlparse
 
 from django.apps import apps
 from django.conf import settings
@@ -11,9 +10,10 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import resolve, reverse
 from django.template import VariableDoesNotExist, Variable
 from django.template.defaulttags import URLNode
-from django.utils.encoding import smart_str, smart_unicode
+from django.utils.encoding import smart_str
 from django.utils.http import urlencode, urlquote
 
+from common.compat import smart_unicode, urlparse
 from common.utils import return_attrib
 from permissions import Permission
 
@@ -141,7 +141,7 @@ class Menu(object):
         for resolved_navigation_object in resolved_navigation_object_list:
             resolved_links = []
 
-            for bound_source, links in self.bound_links.iteritems():
+            for bound_source, links in self.bound_links.items():
                 try:
                     if inspect.isclass(bound_source):
                         if type(resolved_navigation_object) == bound_source:
@@ -320,7 +320,7 @@ class Link(object):
             # Is not a callable
             kwargs = self.kwargs
 
-        kwargs = {key: Variable(value) for key, value in kwargs.iteritems()}
+        kwargs = {key: Variable(value) for key, value in kwargs.items()}
 
         # Use Django's exact {% url %} code to resolve the link
         node = URLNode(

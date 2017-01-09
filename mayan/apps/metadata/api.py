@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
 
-from urllib import unquote_plus
-
 from django.shortcuts import get_object_or_404
+
+from common.compat import unquote_plus
 
 from .models import DocumentMetadata, MetadataType
 
