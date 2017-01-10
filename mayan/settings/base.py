@@ -95,7 +95,7 @@ INSTALLED_APPS = (
     'ocr',
     'rest_api',
     'sources',
-    'statistics',
+    'mayan_statistics',
     'storage',
     'tags',
     # Placed after rest_api to allow template overriding

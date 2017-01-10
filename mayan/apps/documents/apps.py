@@ -26,9 +26,9 @@ from converter.permissions import (
 from events.links import link_events_for_object
 from events.permissions import permission_events_view
 from mayan.celery import app
+from mayan_statistics.classes import StatisticNamespace, CharJSLine
 from navigation import SourceColumn
 from rest_api.classes import APIEndPoint
-from statistics.classes import StatisticNamespace, CharJSLine
 
 from .handlers import create_default_document_type
 from .links import (

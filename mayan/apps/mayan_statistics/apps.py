@@ -19,7 +19,8 @@ from .tasks import task_execute_statistic  # NOQA - Force registration of task
 
 
 class StatisticsApp(MayanAppConfig):
-    name = 'statistics'
+    app_namespace = 'statistics'
+    name = 'mayan_statistics'
     test = True
     verbose_name = _('Statistics')
 
