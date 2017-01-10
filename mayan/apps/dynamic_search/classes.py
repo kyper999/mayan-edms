@@ -6,9 +6,9 @@ import re
 
 from django.apps import apps
 from django.db.models import Q
+from django.utils.encoding import force_text
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext as _
-
 
 from .settings import setting_limit
 
@@ -216,7 +216,7 @@ class SearchModel(object):
 
             result_set = result_set | model_result_set
 
-        elapsed_time = unicode(
+        elapsed_time = force_text(
             datetime.datetime.now() - start_time
         ).split(':')[2]
 
