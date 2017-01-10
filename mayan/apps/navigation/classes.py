@@ -13,7 +13,7 @@ from django.template.defaulttags import URLNode
 from django.utils.encoding import smart_str
 from django.utils.http import urlencode, urlquote
 
-from common.compat import smart_unicode, urlparse
+from common.compat import smart_unicode, unquote_plus, urlparse
 from common.utils import return_attrib
 from permissions import Permission
 
@@ -212,7 +212,7 @@ class Menu(object):
 
             # Sort links by position value passed during bind
             result[0] = sorted(
-                result[0], key=lambda item: self.link_positions.get(item.link) if isinstance(item, ResolvedLink) else self.link_positions.get(item)
+                result[0], key=lambda item: (self.link_positions.get(item.link) or 0) if isinstance(item, ResolvedLink) else (self.link_positions.get(item) or 0)
             )
 
         return result
@@ -344,7 +344,7 @@ class Link(object):
         if self.keep_query:
             # Sometimes we are required to remove a key from the URL QS
             previous_path = smart_unicode(
-                urllib.unquote_plus(
+                unquote_plus(
                     smart_str(
                         request.get_full_path()
                     ) or smart_str(
